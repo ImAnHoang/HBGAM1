@@ -16,11 +16,14 @@ public class Player : Character
     [SerializeField] private Transform thorwPoint;
 
     [SerializeField] private GameObject attackArea;
+
+    
+    
     private bool isGrounded = true;
     private bool isJumping = false;
     private bool isAttack = false;
 
-    private bool isDie = false;
+    // private bool isDie = false;
     // private string currentAnim;
     private float horizontal;
 
@@ -28,19 +31,23 @@ public class Player : Character
 
     private Vector3 savePoint;
     [SerializeField] private float jumpForce = 350;
-   
+    
+    private void Awake()
+    {
+        coin = PlayerPrefs.GetInt("coin", 0);
+    }
     
     // Update is called once per frame
     void Update()
     {
-        if(isDie)
+        if(IsDead)
         {
             return;
         }
         isGrounded = CheckGrounded();
 
         // -1 --> 0 --> 1
-        horizontal = Input.GetAxisRaw("Horizontal");
+        // horizontal = Input.GetAxisRaw("Horizontal");
         // vertical = Input.GetAxisRaw("Vertical");
 
         if(isAttack)
@@ -96,7 +103,7 @@ public class Player : Character
         if (Mathf.Abs(horizontal) > 0.1f)
         {
             // ChangeAnim("run");
-            rb.velocity = new Vector2(horizontal * Time.fixedDeltaTime * speed, rb.velocity.y);
+            rb.velocity = new Vector2(horizontal  * speed, rb.velocity.y);
 
             transform.rotation = Quaternion.Euler(new Vector3(0, horizontal > 0 ? 0 : 180, 0));
         }
@@ -113,7 +120,7 @@ public class Player : Character
     {
 
         base.OnInit();
-        isDie = false;
+        // isDie = false;
         isAttack = false;
 
         transform.position = savePoint;
@@ -121,6 +128,8 @@ public class Player : Character
         ChangeAnim("idle");
         DeActiveAttack();
         SavePoint();
+
+        UIManager.instance.UpdateCoinText(coin);
     }
 
     public override void OnDespawn()
@@ -149,7 +158,7 @@ public class Player : Character
     }
 
 
-    private void Attack()
+    public void Attack()
     {
         
         ChangeAnim("attack");
@@ -160,7 +169,7 @@ public class Player : Character
 
         
     }
-    private void Throw()
+    public void Throw()
     {
        
         ChangeAnim("throw");
@@ -177,7 +186,7 @@ public class Player : Character
     }
   
 
-    private void Jump()
+    public void Jump()
     {
         isJumping = true;
         ChangeAnim("jump");
@@ -208,15 +217,21 @@ public class Player : Character
         if (collision.CompareTag("Coin"))
         {
             coin++;
+            PlayerPrefs.SetInt("coin", coin);
+            UIManager.instance.UpdateCoinText(coin);
             Destroy(collision.gameObject);
         }
         if(collision.CompareTag("DeathZone"))
         {
-            isDie = true;
+            // isDie = true;
            ChangeAnim("die");
            Invoke(nameof(OnInit), 0.5f);
         }
     }
 
+    public void SetMove(float horizontal)
+    {
+        this.horizontal = horizontal;
+    }
 
 }
