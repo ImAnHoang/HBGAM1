@@ -227,6 +227,18 @@ public class Player : Character
            ChangeAnim("die");
            Invoke(nameof(OnInit), 0.5f);
         }
+        if(collision.CompareTag("HP_Item"))
+        {
+            if(hp < healthbar.GetMaxHp())
+            {
+                hp += 30;
+                healthbar.SetNewHp(hp);
+                Destroy(collision.gameObject);
+            } else{
+                return;
+            }
+        }
+        
     }
 
     public void SetMove(float horizontal)

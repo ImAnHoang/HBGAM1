@@ -8,7 +8,7 @@ public class Character : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] protected Healthbar healthbar;
     [SerializeField] protected CombatText combatTextPrefab;
-    private float hp;
+    public float hp;
     public bool IsDead => hp <= 0;
 
     private string currentAnim;

@@ -8,6 +8,11 @@ TagManager:
   - DeathZone
   - EnemyWall
   - Enemy
+  - HP_Item
+  - Trap
+  - Trap2
+  - Trap2_Area
+  - Ground
   layers:
   - Default
   - TransparentFX

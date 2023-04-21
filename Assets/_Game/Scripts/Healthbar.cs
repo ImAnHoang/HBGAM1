@@ -29,5 +29,14 @@ public class Healthbar : MonoBehaviour
         this.hp = hp;
         // imageFill.fillAmount = hp / maxHp;
     }
+    public float GetHp()
+    {
+        return hp;
+    }
+
+    public float GetMaxHp()
+    {
+        return maxHp;
+    }
   
 }
