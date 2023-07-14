@@ -47,9 +47,9 @@ public class Player : Character
         isGrounded = CheckGrounded();
 
         // -1 --> 0 --> 1
-        // horizontal = Input.GetAxisRaw("Horizontal");
+         //horizontal = Input.GetAxisRaw("Horizontal");
         // vertical = Input.GetAxisRaw("Vertical");
-
+         
         if(isAttack)
         {
             rb.velocity = Vector2.zero;
@@ -81,13 +81,6 @@ public class Player : Character
             {
                 Throw();
             }
-            
-
-
-            
-
-
-            
         }
         // check falling
         if (!isGrounded && rb.velocity.y < 0)
@@ -95,11 +88,6 @@ public class Player : Character
             ChangeAnim("fall");
             isJumping = false;
         }
-
-
-
-
-
         if (Mathf.Abs(horizontal) > 0.1f)
         {
             // ChangeAnim("run");
@@ -129,7 +117,7 @@ public class Player : Character
         DeActiveAttack();
         SavePoint();
 
-        UIManager.instance.UpdateCoinText(coin);
+        UIManager.instance.UpdateCoinText(coin);    
     }
 
     public override void OnDespawn()
@@ -237,6 +225,11 @@ public class Player : Character
             } else{
                 return;
             }
+        }
+        if(collision.CompareTag("Win"))
+        {
+            ChangeAnim("win");
+            Time.timeScale = 0;
         }
         
     }

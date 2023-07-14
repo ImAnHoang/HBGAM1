@@ -13,6 +13,7 @@ TagManager:
   - Trap2
   - Trap2_Area
   - Ground
+  - Win
   layers:
   - Default
   - TransparentFX
